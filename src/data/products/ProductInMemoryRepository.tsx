@@ -63,3 +63,21 @@ const products = [
     price: 18
   }
 ];
+
+export default class ProductInMemoryRepository implements ProductRepository {
+  get(filter: string): Promise<Product[]> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (filter) {
+          const filteredProducts = products.filter((p: Product) => {
+            return p.title.toLowerCase().includes(filter.toLowerCase());
+          });
+
+          resolve(filteredProducts);
+        } else {
+          resolve(products);
+        }
+      }, 100);
+    });
+  }
+}
